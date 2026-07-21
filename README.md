@@ -32,4 +32,4 @@ youtube-playlist-numbers.user.js
 
 ## License
 
-MIT
+This userscript is open-source and licensed under the [MIT License](https://opensource.org/licenses/MIT).
