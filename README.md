@@ -13,11 +13,17 @@ A lightweight userscript that restores playlist video numbers on YouTube's new p
 
 ## Installation
 
-Install Violentmonkey or Tampermonkey.
+1)  Install [Violentmonkey](https://violentmonkey.github.io/) (Recommended) <br>
 
-Then install:
+    or [Tampermonkey](https://www.tampermonkey.net/).
 
-youtube-playlist-numbers.user.js
+2)  Then install:
+
+[youtube-playlist-numbers.user.js](https://github.com/PacificCosmophile/YouTube-Playlist-Numbers/blob/main/youtube-playlist-numbers.user.js) <br>
+
+Or you can install directly from [Greasyfork](https://greasyfork.org/en/scripts/588001-youtube-playlist-numbers)
+
+Enjoy 🎉
 
 ## Screenshot
 
