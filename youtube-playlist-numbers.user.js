@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         YouTube Playlist Numbers
 // @namespace    https://github.com/PacificCosmophile
-// @version      1.0
+// @version      1.1
 // @description  Displays playlist video numbers on YouTube's new playlist page.
 // @author       PacificCosmophile+VibeCoded
 // @license      MIT
