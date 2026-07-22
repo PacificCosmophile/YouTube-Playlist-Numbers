@@ -1,21 +1,29 @@
 // ==UserScript==
 // @name         YouTube Playlist Numbers
 // @namespace    https://github.com/PacificCosmophile
-// @version      1.1
 // @description  Displays playlist video numbers on YouTube's new playlist page.
-// @author       PacificCosmophile+VibeCoded
+// @version      1.2
+// @author       PacificCosmophile+Vibecoded
 // @license      MIT
 // @match        https://www.youtube.com/playlist?*
-// @homepageURL  https://github.com/PacificCosmophile/youtube-playlist-numbers
-// @supportURL   https://github.com/PacificCosmophile/youtube-playlist-numbers/issues
-// @icon         https://www.youtube.com/s/desktop/aaaab8bf/img/favicon_144x144.png
+// @homepageURL  https://github.com/PacificCosmophile/YouTube-Playlist-Numbers
+// @icon         https://raw.githubusercontent.com/PacificCosmophile/YouTube-Playlist-Numbers/main/icon.png
+// @downloadURL  https://update.greasyfork.org/scripts/588001/YouTube%20Playlist%20Numbers.user.js
+// @updateURL    https://update.greasyfork.org/scripts/588001/YouTube%20Playlist%20Numbers.meta.js
+// @run-at       document-idle
 // @grant        none
 // ==/UserScript==
+
+// Icon credit:
+// Youtube playlist icons created by kawalanicon
+// https://www.flaticon.com/free-icons/youtube-playlist
 
 (() => {
     'use strict';
 
-    const STYLE_ID = 'yt-playlist-number-style';
+    const STYLE_ID = 'ytpn-style';
+    let playlistObserver = null;
+    let retryObserver = null;
 
     function injectStyle() {
         if (document.getElementById(STYLE_ID)) return;
@@ -77,7 +85,7 @@
         if (!thumb)
             return;
 
-        const href = thumb.getAttribute('href');
+        const href = thumb.href || thumb.getAttribute('href');
 
         if (!href)
             return;
@@ -88,7 +96,7 @@
             return;
 
         // Ensure positioning context
-        if (getComputedStyle(thumb).position === 'static') {
+        if (!thumb.style.position) {
             thumb.style.position = 'relative';
         }
 
@@ -101,9 +109,9 @@
         item.dataset.ytpnProcessed = '1';
     }
 
-    function scan() {
+    function scan(container) {
 
-        document
+        container
             .querySelectorAll('yt-lockup-view-model')
             .forEach(processItem);
 
@@ -116,9 +124,13 @@
         if (!container)
             return false;
 
-        scan();
+        scan(container);
 
-        const observer = new MutationObserver(mutations => {
+        if (playlistObserver) {
+            playlistObserver.disconnect();
+        }
+
+        playlistObserver = new MutationObserver(mutations => {
 
             for (const mutation of mutations) {
 
@@ -139,7 +151,7 @@
 
         });
 
-        observer.observe(container, {
+        playlistObserver.observe(container, {
             childList: true,
             subtree: true
         });
@@ -151,18 +163,29 @@
 
         injectStyle();
 
+        if (playlistObserver) {
+            playlistObserver.disconnect();
+            playlistObserver = null;
+        }
+
+        if (retryObserver) {
+            retryObserver.disconnect();
+            retryObserver = null;
+        }
+
         if (observePlaylist())
             return;
 
-        const retry = new MutationObserver(() => {
+        retryObserver = new MutationObserver(() => {
 
             if (observePlaylist()) {
-                retry.disconnect();
+                retryObserver.disconnect();
+                retryObserver = null;
             }
 
         });
 
-        retry.observe(document.body, {
+        retryObserver.observe(document.body, {
             childList: true,
             subtree: true
         });
