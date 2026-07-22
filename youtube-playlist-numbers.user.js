@@ -5,12 +5,10 @@
 // @description  Displays playlist video numbers on YouTube's new playlist page.
 // @author       PacificCosmophile+VibeCoded
 // @license      MIT
-//
 // @match        https://www.youtube.com/playlist?*
-//
 // @homepageURL  https://github.com/PacificCosmophile/youtube-playlist-numbers
 // @supportURL   https://github.com/PacificCosmophile/youtube-playlist-numbers/issues
-//
+// @icon         https://www.youtube.com/s/desktop/aaaab8bf/img/favicon_144x144.png
 // @grant        none
 // ==/UserScript==
 
